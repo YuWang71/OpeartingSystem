@@ -1,0 +1,53 @@
+Script started on Mon 20 Mar 2017 04:39:50 PM EDT
+]0;tuser@tutor-vserver: ~tuser@tutor-vserver:~$ exitscp mdhillon@users.cs.umb.edu:~/personal/cs444/hw2/uprog.lnx .
+mdhillon@users.cs.umb.edu's password: 
+uprog.lnx                                                                             0%    0     0.0KB/s   --:-- ETAuprog.lnx                                                                           100%   38KB  38.3KB/s   00:00    
+]0;tuser@tutor-vserver: ~tuser@tutor-vserver:~$ mtip -f uprog.lnk[Kx
+For command help, type ~?
+For help on args, rerun without args
+Code starts at 0x100100
+Using board # 1 
+~downloading uprog.lnx
+.........Done.
+
+Download done, setting EIP to 100100.
+Tutor> go 100100
+Running with device TTY1
+
+Trying simple write(4 chars)...
+hi!
+write of 4 returned 4
+<doing delay>
+Trying longer write (9 chars)
+abcdefghiwrite of 9 returned 9
+<doing delay>
+
+Trying write of 80-char string...
+AABBCCDDEEFFGGHHIIJJKKLLMMNNOOPPQQRRSSTTUUVVWWXXYYZZ[[\\]]^^__``aabbccddeeffgghh
+write returned 80
+<doing delay>
+
+Type 10 chars input to test typeahead while looping for delay...
+<doing delay>
+6756758989
+Got 10 chars into buf. Trying write of buf...
+6756758989
+Trying another 10 chars read right away...
+0809896567
+Got 10 chars on second read
+0809896567
+Type 20 chars input, note lack of echoes...
+<doing delay>
+897098687697987870766768
+Trying write of buf...
+89709897987870766768
+Asked for 20 characters; got 20
+Error code from main returned to sysexit in tunix.c 0
+Exception 3 at EIP=00100110: Breakpoint
+Tutor> ~q 
+Quit handler: 
+killing process 2928 Leaving board #1
+]0;tuser@tutor-vserver: ~tuser@tutor-vserver:~$ exit
+exit
+
+Script done on Mon 20 Mar 2017 04:40:46 PM EDT

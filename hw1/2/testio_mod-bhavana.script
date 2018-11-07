@@ -1,0 +1,53 @@
+Script started on Thu 23 Feb 2017 05:57:50 AM EST
+]0;tuser@tutor-vserver: ~/hw1/2tuser@tutor-vserver:~/hw1/2$ [7P(reverse-i-search)`':[C[20@m': mtip -f testio.lnx[1@t[C[C[C[1@i[C[C[C[1@p[C[C[C]0;tuser@tutor-vserver: ~/hw1/2tuser@tutor-vserver:~/hw1/2$ mtip -f testio.lnx 
+For command help, type ~?
+For help on args, rerun without args
+Code starts at 0x100100
+Using board # 1 
+~downloading testio.lnx
+
+........Done.
+
+Download done, setting EIP to 100100.
+Tutor> got  100100
+Running with device TTY1
+
+Trying simple write(4 chars)...
+hi!
+write of 4 returned 4
+<doing delay>
+Trying longer write (9 chars)
+abcdefghiwrite of 9 returned 9
+<doing delay>
+
+Trying write of 80-char string...
+AABBCCDDEEFFGGHHIIJJKKLLMMNNOOPPQQRRSSTTUUVVWWXXYYZZ[[\\]]^^__``aabbccddeeffgghh
+write returned 80
+<doing delay>
+
+Type 10 chars input to test typeahead while looping for delay...
+<doing delay>
+1234567890
+Got 10 chars into buf. Trying write of buf...
+1234567890
+Trying another 10 chars read right away...
+1234567890
+Got 10 chars on second read
+1234567890
+
+Now turning echo off--
+
+Type 20 chars input, note lack of echoes...
+<doing delay>
+
+Trying write of buf...
+54356456478676476435
+Asked for 20 characters; got 20
+Exception 3 at EIP=00100110: Breakpoint
+Tutor> 84  ~q 
+Quit handler: 
+killing process 2567 Leaving board #1
+]0;tuser@tutor-vserver: ~/hw1/2tuser@tutor-vserver:~/hw1/2$ exit
+exit
+
+Script done on Thu 23 Feb 2017 06:00:52 AM EST

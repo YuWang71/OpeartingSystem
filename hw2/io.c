@@ -1,0 +1,50 @@
+/*********************************************************************
+*
+*       file:           io.c
+*       author:         betty o'neil
+*
+*       device-independent i/o package for SAPC
+*
+*/
+#include <cpu.h>
+#include "tsystm.h"
+#include "ioconf.h"
+
+/*====================================================================
+*
+* i/o initialization loop for SAPC devices
+*
+*/
+
+void ioinit()
+{
+  int i;
+
+  cli();
+  for (i = 0; i < NDEVS; i++)
+    devtab[i].dvinit(i);	/* call device-specific init routine */
+  sti();
+}
+
+/*====================================================================
+*
+*       read function calling routine for SAPC devices
+*       (hw2: rename to "sysread" for the kernel)
+*/
+
+int sysread(int dev, char *buf, int nchar)
+{
+  if (dev < 0 || dev >= NDEVS) return -1;      /* fail */
+  return devtab[dev].dvread(dev, buf, nchar); /* call dev-specific routine */
+}
+
+/*====================================================================
+*
+*       write function calling routine for SAPC devices
+*       (rename to "syswrite" for the kernel)
+*/
+int syswrite(int dev, char *buf, int nchar)
+{
+  if (dev < 0 || dev >= NDEVS) return -1;       /* fail */
+  return devtab[dev].dvwrite(dev, buf, nchar); /* call dev-specific routine */
+}

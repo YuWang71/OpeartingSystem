@@ -1,0 +1,67 @@
+Script started on Fri 12 May 2017 09:48:11 PM EDT
+]0;tuser@tutor-vserver: ~tuser@tutor-vserver:~$ [1P(reverse-i-search)`':[C[22@m': mtip -f uprog123.lnx[1@t[C[C[C[1@i[C[C[C[1@p[C[C[C[3P]0;tuser@tutor-vserver: ~tuser@tutor-vserver:~$]0;tuser@tutor-vserver: ~tuser@tutor-vserver:~$ [C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[K[K[K[K[K[K[K[K[K[K[K[K[Ksequences.lnx 
+For command help, type ~?
+For help on args, rerun without args
+Code starts at 0x100100
+Using board # 1 
+~downloading sequences.lnx
+.............Done.
+
+Download done, setting EIP to 100100.
+Tutor> go 100100
+Inittializing timer
+Setting IDT interrupt gate descriptor for irq 0 (int n = 0x20)
+Commanding PIC to interrupt CPU for irq 0 (TIMER0_IRQ)
+Commanding timer to generate pulse train using this count
+Enabling interrupts in CPU
+Starting proc 0
+aaaaaaaaaazzzmain3: Tested all sequences that start at less than 500000.
+Exit code 1
+main2: Tested sequences through 500000.
+main2: Longest sequence of length 446 started at 410011.
+Exit code 1
+AAAAAAAAAAExit code 2
+All blocked running proc 0
+SHUTTING DOWN
+
+EXIT CODE OF PROCESS 1: 2
+
+EXIT CODE OF PROCESS 2: 1
+
+EXIT CODE OF PROCESS 3: 1
+Shutting down timer
+Proc: 0 cpu: 5
+Proc: 0 outchar: 0
+Proc: 1 cpu: 93
+Proc: 1 outchar: 23
+Proc: 2 cpu: 26
+Proc: 2 outchar: 99
+Proc: 3 cpu: 2
+Proc: 3 outchar: 61
+Scheduler Call Site 0:tick_handler,
+     Call Site 1:sysexit
+ Call Site 2:sleep
+Call Site-0 called schedule 30 times
+Call Site-1 called schedule 3 times
+Call Site-2 called schedule 0 times
+SHUTTING THE SYSTEM DOWN!
+Debug log from run:
+Marking kernel events as follows:
+  ^a   COM2 input interrupt, a received
+  ~d   COM2 output interrupt, ordinary char output
+  ~e   COM2 output interrupt, echo output
+  ~s   COM2 output interrupt, shutdown TX ints
+  |(1z-2) process switch from 1, now a zombie, to 2
+  |(1b-2) process switch from 1, now blocked, to 2
+  |(2-1) process switch (by preemption) from 2 to 1
+*0*0*0*0|(0-1)~d~d~d~d~d~d~s~d~s~d~s~d~s~d~s~d~s~d~s~d~s*1*1*1*1|(1-2)*2*2*2*2|(2-3)*2*2~d~s~d~s~d~s~d~s~d~s~d~s~d~s~d~s~d~s~d~s~d~s~d~s~d~s~d~s~d~s~d~s~d~s~d~s~d~s~d~s~d~s~d~s~d~s~d~s~d~s~d~s~d~s~d~s~d~s~d~s~d~s~d~s~d~s~d~s~d~s~d~s~d~s~d~s~d~s~d~s~d~s~d~s~d~s~d~s~d~s~d~s~d~s~d~s~d~s~d~s~d~s~d~s~d~s~d~s~d~s~d~s~d~s~d~s~d~s~d~s~d~s|(3z-1)*1*1*1*1|(1-2)*2*2*2*2|(2-1)*1*1*1*1|(1-2)*2*2*2*2|(2-1)*1*1*1*1|(1-2)*2*2*2*2|(2-1)*1*1*1*1|(1-2)*2*2*2*2|(2-1)*1*1*1*1|(1-2)*2*2*2*2|(2-1)*1*1*1*1|(1-2)*2~d~s~d~s~d~s~d~s~d~s~d~s~d~s~d~s~d~s~d~s~d~s~d~s~d~s~d~s~d~s~d~s~d~s~d~s~d~s~d~s~d~s*2~d~s~d~s~d~s~d~s~d~s~d~s~d~s~d~s~d~s~d~s~d~s~d~s~d~s~d~s~d~s~d~s~d~s~d~s~d~s~d~s~d~s~d~s~d~s~d~s~d~s~d~s~d~s~d~s~d~s~d~s~d~s~d~s~d~s~d~s~d~s~d~s~d~s~d~s~d~s~d~s~d~s~d~s~d~s~d~s~d~s~d~s~d~s~d~s~d~s~d~s~d~s~d~s~d~s~d~s~d~s~d~s~d~s~d~s~d~s~d~s~d~s~d~s~d~s~d~s~d~s~d~s~d~s~d~s~d~s~d~s~d~s~d~s~d~s~d~s~d~s~d~s~d~s~d~s|(2z-1)*1*1*1*1|(1-1)*1*1*1*1|(1-1)*1*1*1*1|(1-1)*1*1*1*1|(1-1)*1*1*1*1|(1-1)*1*1*1*1|(1-1)*1*1*1*1|(1-1)*1*1*1*1|(1-1)*1*1*1*1|(1-1)*1*1*1*1|(1-1)*1*1*1*1|(1-1)*1*1*1*1|(1-1)*1*1*1*1|(1-1)*1*1*1*1|(1-1)*1*1*1*1|(1-1)*1*1*1*1|(1-1)~d~d~d~d~d~d~s~d~s~d~s~d~s~d~s*1|(1z-0)*0
+LEAVE KERNEL!
+
+Exception 3 at EIP=0010010b: Breakpoint
+Tutor> ~q 
+Quit handler: 
+killing process 2154 Leaving board #1
+]0;tuser@tutor-vserver: ~tuser@tutor-vserver:~$ exit
+exit
+
+Script done on Fri 12 May 2017 09:50:06 PM EDT

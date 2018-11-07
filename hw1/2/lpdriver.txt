@@ -1,0 +1,36 @@
+* Corresponding to tty.h and tty.c the lptdriver files would be lpt.h and lpt.c
+* Since we are adding a new device to our system, ioconf.c will require following changes.
+* Please not the ioconf.h will also require to increase the number of device.
+* Also since printer driver is write only read function would be NULL or devtab.dvread would throw segmentation fault.
+*	Other option would be to return ENOTSUP(not supported) error from lpt.read.
+
+#######Changes ioconf.c #######
+#include "ioconf.h"
+#include "tty.h"
+#include "lpt.h"
+
+struct	device	devtab[] = {
+{0,ttyinit, ttyread, ttywrite, ttycontrol, 0x3f8,(int)&ttytab[0]}, /* TTY0 */
+{1,ttyinit, ttyread, ttywrite, ttycontrol, 0x2f8,(int)&ttytab[1]},/* TTY1*/
+{2,lptinit, NULL, lptwrite, lptcontrol, 0x378,(int)&lpttab[0]}, /* LPT1 */
+{3,lptinit, NULL, lptwrite, lptcontrol, 0x278,(int)&lpttab[1]},/* LPT2*/
+};
+
+##########End ioconf.c #######
+
+
+##########Functions in lpt.c###########
+void lptinit(int dev);
+int lptwrite(int dev, char *buf, int nchar);
+int lptcontrol(int dev, int fncode, int val);
+
+# Handler for lpt1
+void lptirqinthandlpt1();
+
+# Handler for lpt2
+void lptirqinthandlpt2();
+
+# Common helper founction for interrupt handline of lptdriver
+void lptirqinthand(int dev);
+
+##########End of lpt.c###########

@@ -1,0 +1,209 @@
+Script started on Mon 24 Apr 2017 05:31:32 PM EDT
+]0;tuser@tutor-vserver: ~
+tuser@tutor-vserver:~$ mtip
+Usage: mtip [-b board#] [-f download-file]
+specify board by #: -b 1, etc.; defaults to scan.
+more flags: [-x debuglevel] -e <escchar>
+  Use ~ or Esc for mtip commands such as ~q or <Esc>q to quitfor more info on commands, type ~? or Esc? once program is running
+now scanning for free board...
+Using board # 1 
+
+
+Setting console dev to COM2Console: colour EGA+ 80x25
+COM1 at 0x03f8 (irq = 4) is a 16550A
+COM2 at 0x02f8 (irq = 3) is a 16550A
+
+                 Welcome to UMB Tutor for the PC
+   UMB Tutor is a 32-bit protected-mode PC debugger/downloader,
+       based on Linux, UMB Tutor for m68k, and remote gdb.
+UMB Tutor is free software and you are welcome to distribute copies
+of it under certain conditions.  There is no warranty for this program.
+The copyright and warranty provisions follow the Gnu general public
+license, available for view in gdb and elsewhere.  Full sources available.
+--bugs, suggestions, questions to eoneil@cs.umb.edu
+
+Exception 3 at EIP=00057a9b: Breakpoint
+Tutor> rd all
+
+EAX=00000001 EBX=00000000   EBP=00057890
+EDX=00000000 ECX=0006967c   ESP=0005788c
+ESI=00013e10 EDI=00051ffc   EIP=00057a9b
+EFLAGS=0206 (IF=1 SF=0 ZF=0 CF=0 OF=0)
+CS=0010 DS=0018 SS=0018 ES=0018 FS= 0018 GS=0018
+CR0=80050033   CR2=0   CR3=51000
+IDTR=c005604c (limit 7ff)  GDTR=c0056854 (limit 4f)
+
+** 1.)dumped the first 4 PTEs
+
+Tutor> mdd 52000
+
+00052000    00000007 00001007 00002007 00003007 ......... ...0..
+
+* All the above 4 PTEs are doing identity paging:
+*	Page0->page frame 0
+*	Page1->page frame 1
+*	Page2->page frame 2
+*	Page3->page frame 3
+* And all the PTEs important bits are set to 007 which means, 
+*	D=0;A=0;U=1;W=1;V=1.
+
+** 2.)dumped the first 4 PTEs of the tutor program.
+*	As tutor program starts at VA 50000, which corresponds to PTE#0x50,
+*		the address of PTE#0x50 is 0x520C8
+
+Tutor> mdd 520C8
+
+000520c8    00032007 00033007 00034007 00035007 . ...0...@...P..
+
+*	Page50->page frame 32
+*	Page51->page frame 33
+*	Page52->page frame 34
+*	Page53->page frame 35
+* And all the PTE’s important bits are set to 007 which means, 
+*	D=0;A=0;U=1;W=1;V=1.
+
+** 3.)Page 3 has been set to valid but not yet referenced
+
+Tutor> mdd 52000
+
+00052000    00000007 00001007 00002007 00003007 ......... ...0..
+
+* Did a read on Page 3.
+Tutor> mdd 3000
+
+00003000    00007fd4 00000000 00205330 00008e00 ........0S .....
+
+* Here we can observe that, on read PTE#0x3 important bits have been modified to 027,
+*	which means D=0;A=1;U=1;W=1;V=1.
+
+Tutor> mdd 52000
+
+00052000    00000007 00001007 00002007 00003027 ......... ..'0..
+
+* Did a write on Page 3.
+Tutor> ms 3000 1
+
+* Here we can observe that, on write PTE#0x3 important bits have been modified to 067,
+*	which means D=1;A=1;U=1;W=1;V=1. 
+
+Tutor> mdd 52000
+
+00052000    00000007 00001007 00002007 00003067 ......... ..g0..
+
+** 4.)Page 3 has been set to invalid
+Tutor> ms 5200c 3006
+
+Tutor> mdd 52000
+
+00052000    00000007 00001007 00002007 00003006 ......... ...0..
+
+*	Did a read on Page 3.
+Tutor> mdd 3000
+00003000    Exception 14 at EIP=00060d9e: Page fault
+
+* Did a write on Page 3.
+Tutor> ms 3000 1
+
+Exception 14 at EIP=00061045: Page fault
+** 5.)written value Ô51000Õ in CR3 register
+Tutor> rs cr3 51000
+
+Tutor> rd all
+
+EAX=00000001 EBX=00000000   EBP=00057890
+EDX=00000000 ECX=0006967c   ESP=0005788c
+ESI=00013e10 EDI=00051ffc   EIP=00057a9b
+EFLAGS=0206 (IF=1 SF=0 ZF=0 CF=0 OF=0)
+CS=0010 DS=0018 SS=0018 ES=0018 FS= 0018 GS=0018
+CR0=80050033   CR2=0   CR3=51000
+IDTR=c005604c (limit 7ff)  GDTR=c0056854 (limit 4f)
+* Here we can see that CR2 is not yet set.
+Tutor> mdd 52000
+
+00052000    00000007 00001007 00002007 00003007 ......... ...0..
+
+* Retrying 4th
+Tutor> ms 5200c 3006
+
+Tutor> md 3000
+
+* 00003000    Exception 14 at EIP=00060d9e: Page fault
+Tutor> ms 3000 1
+
+* Exception 14 at EIP=00061045: Page fault
+
+* Here we can observe CR2 having the address that causes the page fault.
+Tutor> rd all
+
+EAX=00000001 EBX=0006f548   EBP=0006f520
+EDX=00003000 ECX=000655a4   ESP=0006f520
+ESI=0006f548 EDI=00000001   EIP=00061045
+EFLAGS=10203 (IF=1 SF=0 ZF=0 CF=1 OF=0)
+CS=0010 DS=0018 SS=0018 ES=0018 FS= 0018 GS=0018
+CR0=80050033   CR2=c0003000   CR3=51000
+IDTR=c005604c (limit 7ff)  GDTR=c0056854 (limit 4f)
+
+** 6.)
+Tutor> mdd 52000
+
+00052000    00000007 00001007 00002007 00003006 ......... ...0..
+
+* Making VA 3000 refer to PA 5000 by setting PTE#3 point to PA 5000
+Tutor> ms 5200c 5007
+
+Tutor> mdd 52000
+
+00052000    00000007 00001007 00002007 00005007 ......... ...P..
+
+* Due to identity mapping VA 5000 is already mapped to PA 5000
+* Writing value '4' at VA 5000
+Tutor> ms 5000 4
+
+* Reading the location in VA 5000
+Tutor> mdd 5000
+
+00005000    00000004 00000000 00000000 00000000 ................
+
+* Reading the location in VA 3000
+Tutor> mdd 3000
+
+00003000    00000004 00000000 00000000 00000000 ................
+
+* Above we can observe that both VA 3000 and VA 5000 showing the same value,
+*	further if we set value at VA 3000, we observed same change 
+*	reflected at VA 5000
+Tutor> ~q 
+Quit handler: 
+killing process 2034 Leaving board #1
+]0;tuser@tutor-vserver: ~
+tuser@tutor-vserver:~$ exit
+exit
+
+Script done on Mon 24 Apr 2017 05:45:47 PM EDT
+
+** 7.) Suicidal Step
+Script started on Mon 24 Apr 2017 06:13:53 PM EDT
+]0;tuser@tutor-vserver: ~tuser@tutor-vserver:~$ mtip
+Usage: mtip [-b board#] [-f download-file]
+specify board by #: -b 1, etc.; defaults to scan.
+more flags: [-x debuglevel] -e <escchar>
+  Use ~ or Esc for mtip commands such as ~q or <Esc>q to quitfor more info on commands, type ~? or Esc? once program is running
+now scanning for free board...
+Using board # 1 
+Tutor> rd all
+EAX=00000001 EBX=00000000   EBP=00057890
+EDX=00000000 ECX=0006967c   ESP=0005788c
+ESI=00013e10 EDI=00051ffc   EIP=00057a9b
+EFLAGS=0206 (IF=1 SF=0 ZF=0 CF=0 OF=0)
+CS=0010 DS=0018 SS=0018 ES=0018 FS= 0018 GS=0018
+CR0=80050033   CR2=0   CR3=51000
+IDTR=c005604c (limit 7ff)  GDTR=c0056854 (limit 4f)
+Tutor> mdd 51c00
+00051c00    00052027 00000000 00000000 00000000 ' ..............
+* Overwriting PDE#0 at 51c00, terminates the VM
+Tutor> ms 51c00 0
+Please type <CR> to confirm console setting: 
+tuser@tutor-vserver: ~tuser@tutor-vserver:~$ exit
+exit
+
+Script done on Mon 24 Apr 2017 06:15:25 PM EDT

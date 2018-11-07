@@ -1,0 +1,45 @@
+Contributors:
+Bhavana Duddugunta
+Mrinal Dhillon
+
+Added files:
+uprog.script, sequence.script
+
+Changes:
+tunix.c, sched.c, proc.h, makefile u=sequences
+
+tunix:
+New functions: #tick_handler, #tick_init, #tick_deinit, set_timer_count
+Modified: k_init, process0, init_proctab, shutdown, syscallc, sysexit
+
+* #k_init calls tick_init with count 11932 and shutdown calls tick_deinit
+* Timer count is set to 11932 that is approx 10ms.
+* timer interrupt calls tick_handler which calls scheduler if curpoc QUANTUM is reduced to 0
+* QUANTUM is set to 4.
+
+* process0:
+* removed scheduler() call from while loop, now only stays in while loop till all procs are zombied.
+* calls shutdown subsequently.
+
+* init_proctab:
+* intializing proctab for quantum set to 4, cpu and num outchar set to 0.
+
+shutdown:
+* printing cpu and outchars for each process.
+* printing call site number for scheduler i.e. tick_handler, sysexit and sleep.
+
+syscallc:
+* for write call increment outchar number of curpoc by value returned in user_eax.
+
+sysexit:
+* added protection around number of zombies.
+
+
+sched.c:
+* Added interger parameter to scheduler(int call_site_id)
+* increment the scheduler_call_site_index[call_site_id].
+* Call Site 0 is tick_handler, sysexit is Site 1, and Site 2 is sleep.
+
+proc.h:
+* declared extern scheduler_call_site_index[] that is defined in tunix.c
+*   and access/incremented per call site from scheduler.

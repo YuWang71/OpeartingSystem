@@ -1,0 +1,41 @@
+Script started on Tue 16 May 2017 10:06:53 PM EDT
+]0;tuser@tutor-vserver: ~tuser@tutor-vserver:~$ [1P(reverse-i-search)`':[C[19@m': mtip -f tunix.lnx[1@t[C[C[C[1@i[C[C[C[2P]0;tuser@tutor-vserver: ~tuser@tutor-vserver:~$]0;tuser@tutor-vserver: ~tuser@tutor-vserver:~$ 
+For command help, type ~?
+For help on args, rerun without args
+Code starts at 0x100100
+Using board # 1 
+~downloading tunix.lnx
+...........Done.
+
+Download done, setting EIP to 100100.
+Tutor> go 100100
+
+ Switching to proc 1 
+ aaaaaaaaaazzzAAAAAAAAAA
+ EXIT CODE IS 2
+
+ Switching to proc 2 
+ bbbbbbbbbb
+ EXIT CODE IS 4
+
+ Switching to proc 3 
+ cccccccccc
+ EXIT CODE IS 6
+SHUTTING THE SYSTEM DOWN!
+Debug log from run:
+Marking kernel events as follows:
+  ^a   COM2 input interrupt, a received
+  ~    COM2 output interrupt, ordinary char output
+  ~e   COM2 output interrupt, echo output
+  ~s   COM2 output interrupt, shutdown TX ints
+|(0-1)~~~~~~s~s~s~s~s~~~s~~~~~~s~s~s~s~s|(1z-2)~~~~~~s~s~s~s~s|(2z-3)~~~~~~s~s~s~s~s|(3z-0)
+LEAVE KERNEL!
+
+Exception 3 at EIP=0010010b: Breakpoint
+Tutor> ~q 
+Quit handler: 
+killing process 1858 Leaving board #1
+]0;tuser@tutor-vserver: ~tuser@tutor-vserver:~$ exit
+exit
+
+Script done on Tue 16 May 2017 10:07:33 PM EDT

@@ -1,0 +1,24 @@
+* hw1_part2 is done in team by : 
+      Bhavana Duddugunta
+      Mrinal Dhillon
+
+* The work done for hw1_part2 is as below : 
+
+    1)we are using queues instead of ringBuffers.
+
+    2)Three queues are decclared in tty struct.
+
+    3)The three queues are rq(read q), wq(wtire q), eq(echo q).
+
+    4)During read, characters are not being dropped(used to drop in ringBuffer implementation) due to queue implementation, as read will be waiting in a loop. read will wait till the user 
+      enters the required number of characters for that read.
+
+    5)echo queue has been implemented in interrupt handler to transmit whatever the data is being received from Rx. so, for each character it receives from the Rx, triggers the 
+      UART_IIR_THRI, to transmit to the console. So, there is no chance of dropping any characters, as we are triggering the transmit for every character.
+
+    6)write queue is implemented such that, characters are enqueued into the write queue till the queue is full and then triggers the transmit. As tarnsmit starts dequeuing the characters,       write will enqueue the left over characters into write queue and triggers tarnsmit again.
+
+    7)As transmit fires only once, using the logic provided by the professor,we are triggering the transmit recursively from the interrupt handler for each character.
+
+    8)inside the interrupt handler, transmit checks the echo queue preferrentially first, if there is no data inside eccho queue, it goes to the write queue and starts dequeuing. If both 
+      the queues are empty, it will shut down the transmit. 
